@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";
 import { authRouter } from "./router/auth-router";
+import { connectDB } from "./config/db";
 
 const app = express();
 const server = createServer(app);
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use(authRouter);
 
 const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server is listening at: http://localhost:${PORT}`);
+connectDB().then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server is listening at: http://localhost:${PORT}`);
+  });
 });
