@@ -10,3 +10,6 @@ authRouter.get(
 );
 
 authRouter.get("/login-form", authController.loginForm.bind(authController));
+
+authRouter.post("/register", authController.registerUser.bind(authController));
+authRouter.post("/login", authController.loginUser.bind(authController));
