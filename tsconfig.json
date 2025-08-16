@@ -23,5 +23,6 @@
     // Stricter Typechecking Options
     // "noUncheckedIndexedAccess": true,
     "strict": true
-  }
+  },
+  "include": ["src"]
 }

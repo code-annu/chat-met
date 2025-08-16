@@ -4,6 +4,8 @@ import { Server } from "socket.io";
 import express from "express";
 import { authRouter } from "./router/auth-router";
 import { connectDB } from "./config/db";
+import { sessionMiddleware } from "./config/session";
+import { userRouter } from "./router/user-router";
 
 const app = express();
 const server = createServer(app);
@@ -14,16 +16,14 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.urlencoded({ extended: true }));
-
-app.get("/", async (_, res) => {
-  res.render("pages/common/home");
-});
+app.use(sessionMiddleware());
 
 app.get("/test", async (req, res) => {
   res.send("No test are written.");
 });
 
 app.use(authRouter);
+app.use(userRouter);
 
 const PORT = 3000;
 connectDB().then(() => {

@@ -6,32 +6,66 @@
     <link rel="stylesheet" href="/output.css" />
     <title>Chat App Home</title>
   </head>
-  <body
-    class="min-h-screen flex flex-col  bg-gray-100"
-  >
+  <body class="min-h-screen flex flex-col bg-gray-100">
     <%- include('../../partials/header') %>
 
-    <main class="text-center px-4 py-16 mt-20">
-      <h1 class="text-4xl font-bold text-gray-800 mb-4">
-        Welcome to ChattyApp!
-      </h1>
-      <p class="text-lg text-gray-600 mb-8">
-        Chat in real-time with friends and communities. Get started by
-        <a href="/register-form" class="text-blue-500 hover:underline">registering</a> or
-        <a href="/login-form" class="text-blue-500 hover:underline">logging in</a>!
-      </p>
-      <div class="space-x-4">
-        <a
-          href="/login-form"
-          class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
-          >Login</a
-        >
-        <a
-          href="/register-form"
-          class="px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition"
-          >Register</a
-        >
+    <main class="text-center px-4 py-16 mt-20 flex-grow">
+      <% if (user) { %>
+      <!-- Welcome section when user is logged in -->
+      <div>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
+          Welcome back, <span class="text-blue-600"><%= user.fullname %></span>!
+        </h1>
+        <p class="text-lg text-gray-600 mb-8">
+          Ready to chat? Explore your friends and communities below.
+        </p>
+        <div class="space-x-4">
+          <a
+            href="/chat"
+            class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+          >
+            Go to Chat
+          </a>
+          <a
+            href="/logout"
+            class="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition"
+          >
+            Logout
+          </a>
+        </div>
       </div>
+      <% } else { %>
+      <!-- Auth section when user is not logged in -->
+      <div>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
+          Welcome to ChattyApp!
+        </h1>
+        <p class="text-lg text-gray-600 mb-8">
+          Chat in real-time with friends and communities. Get started by
+          <a href="/register-form" class="text-blue-500 hover:underline"
+            >registering</a
+          >
+          or
+          <a href="/login-form" class="text-blue-500 hover:underline"
+            >logging in</a
+          >!
+        </p>
+        <div class="space-x-4">
+          <a
+            href="/login-form"
+            class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+          >
+            Login
+          </a>
+          <a
+            href="/register-form"
+            class="px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition"
+          >
+            Register
+          </a>
+        </div>
+      </div>
+      <% } %>
     </main>
   </body>
 </html>
