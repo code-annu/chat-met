@@ -9,7 +9,7 @@
       <% if (user) { %>
         <!-- Profile Button when user is logged in -->
         <a
-          href="/profile"
+          href="/<%= user.username%>"
           class="px-4 py-2 text-blue-500 hover:text-blue-600 hover:bg-blue-50 rounded transition"
         >
           Profile

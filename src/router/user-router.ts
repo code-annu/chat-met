@@ -5,4 +5,4 @@ const _userController = new UserController();
 export const userRouter = Router();
 
 userRouter.get("/", _userController.home.bind(_userController));
-// userRouter.get('/')
+userRouter.get("/:username", _userController.userProfile.bind(_userController));
