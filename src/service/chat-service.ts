@@ -1,4 +1,5 @@
 import { Room, RoomModel } from "../model/room-model";
+import { Message } from "../model/message-model";
 
 export class ChatService {
   async createNewRoom(
@@ -41,6 +42,17 @@ export class ChatService {
       const roomMembers = room.members;
       room.members.push(memberId);
       return await this.updateRoom(roomId, room);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async sendMessageToRoom(roomId: string, message: Message) {
+    try {
+      const result = await RoomModel.updateOne(
+        { id: roomId },
+        { $push: { messages: message } }
+      );
     } catch (err) {
       throw err;
     }

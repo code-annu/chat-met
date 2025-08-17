@@ -1,4 +1,5 @@
 import { model, Schema, Types } from "mongoose";
+import { Message } from "./message-model";
 
 export interface Room {
   _id: Types.ObjectId;
@@ -7,6 +8,7 @@ export interface Room {
   updatedAt: Date;
   lastMessage: string | null;
   members: [string];
+  messages: Message[] | null;
   name: string;
   imageUrl: string;
 }
@@ -35,6 +37,10 @@ const RoomSchema = new Schema<Room>(
       required: true,
     },
     lastMessage: { type: String, required: false, trim: true },
+    messages: {
+      type: [Object],
+      required: true,
+    },
   },
   { timestamps: true, collection: "rooms" }
 );

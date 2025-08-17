@@ -21,3 +21,15 @@ chatRouter.post(
   requireAuth,
   _chatController.joinChatRoom.bind(_chatController)
 );
+
+chatRouter.get(
+  "/chat/room/:id",
+  requireAuth,
+  _chatController.chatRoom.bind(_chatController)
+);
+
+chatRouter.post(
+  "/send/message/room/:id",
+  requireAuth,
+  _chatController.sendMessageToChatRoom.bind(_chatController)
+);

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/output.css" />
+    <title>Chat Room</title>
+  </head>
+  <body class="flex flex-col h-screen bg-gray-100">
+    <header class="bg-blue-600 text-white py-4 px-6">
+      <h1 class="text-xl font-semibold">Room: <%= room.id %></h1>
+    </header>
+
+    <div class="flex-1 overflow-y-auto p-4 space-y-4" id="messages">
+      <% room.messages.forEach(function(msg) { %>
+      <div class="bg-white rounded-lg p-3 shadow">
+        <div class="text-sm text-gray-500 mb-1">
+          <span>— <%= msg.sentAt %></span> | <span class="text-gray-400 text-sm"><%= msg.senderId %></span>
+        </div>
+        <div class="text-gray-800"><%= msg.text %>  </div>
+      </div>
+      <% }) %>
+    </div>
+
+    <form class="p-4 bg-gray-200 flex items-center gap-2">
+      <input
+        type="text"
+        name="text"
+        name="messageText"
+        id="messageInput"
+        placeholder="Type your message..."
+        required
+        class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        id="sendBtn"
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+      >
+        Send
+      </button>
+    </form>
+
+    <!-- somewhere in your body, before <script src="/client.js"></script> -->
+    <script>
+      // Safely serialize room object to make it available in browser JS
+      window.room = <%- JSON.stringify(room) %>;
+      window.userId = <%- JSON.stringify(userId) %>;
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>
