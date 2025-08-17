@@ -5,6 +5,7 @@ export interface User {
   username: string;
   fullname: string;
   password: string;
+  roomIds?: [string] | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,6 +29,10 @@ const UserSchema = new Schema<User>(
       type: String,
       required: [true, "Password is required"],
       trim: true,
+    },
+    roomIds: {
+      type: [String],
+      required: false,
     },
   },
   { timestamps: true, collection: "users" }

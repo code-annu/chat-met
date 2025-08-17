@@ -6,6 +6,7 @@ import { authRouter } from "./router/auth-router";
 import { connectDB } from "./config/db";
 import { sessionMiddleware } from "./config/session";
 import { userRouter } from "./router/user-router";
+import { chatRouter } from "./router/chat-router";
 
 const app = express();
 const server = createServer(app);
@@ -24,6 +25,7 @@ app.get("/test", async (req, res) => {
 
 app.use(authRouter);
 app.use(userRouter);
+app.use(chatRouter);
 
 const PORT = 3000;
 connectDB().then(() => {

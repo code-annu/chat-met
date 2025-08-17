@@ -11,4 +11,36 @@ export class UserService {
       throw error;
     }
   }
+
+  async updateUserProfile(
+    userId: string,
+    userData: Partial<User>
+  ): Promise<User> {
+    try {
+      const result = await UserModel.updateOne(
+        { _id: userId },
+        { $set: userData }
+      );
+      const user = await UserModel.findById(userId);
+      return user!.toObject();
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async addNewRoomId(userId: string, roomId: string): Promise<User> {
+    try {
+      const user = await this.getUserProfile(userId);
+      let userRoomIds = user.roomIds;
+      if (userRoomIds) {
+        userRoomIds.push(roomId);
+      } else {
+        userRoomIds = [roomId];
+      }
+      user.roomIds = userRoomIds;
+      return await this.updateUserProfile(userId, user);
+    } catch (err) {
+      throw err;
+    }
+  }
 }
