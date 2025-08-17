@@ -1,10 +1,14 @@
 import { User } from "../model/user-model";
 import { UserModel } from "../model/user-model";
+import bcrypt from "bcrypt";
 
 export class AuthService {
+  private saltRounds = 10;
   async registerNewUser(
     newUser: Omit<User, "_id" | "createdAt" | "updatedAt">
   ): Promise<User> {
+    const hashedPassword = await bcrypt.hash(newUser.password, this.saltRounds);
+    newUser.password = hashedPassword;
     try {
       const createdUser = await UserModel.create(newUser);
       const savedUser = await createdUser.save();
@@ -20,7 +24,7 @@ export class AuthService {
       if (!user) {
         throw Error("Username not found!");
       }
-      const match = password === user.password;
+      const match = await bcrypt.compare(password, user.password);
       if (!match) throw Error("Invalid password!");
       return user;
     } catch (error) {
