@@ -15,9 +15,14 @@ export class UserController {
   }
 
   async userProfile(req: Request, res: Response) {
+    const username = req.params.username;
     try {
       const user = await this.userService.getUserProfile(req.session.userId!);
-      res.render("pages/user/profile", { user: user });
+      if (user.username == username) {
+        res.render("pages/user/profile", { user: user });
+        return;
+      }
+      res.send("Page not found!");
     } catch (error) {
       res.redirect("/login");
     }
