@@ -5,11 +5,11 @@ import SessionData from "../types/express-session";
 export class AuthController {
   private authService = new AuthService();
   registerForm(req: Request, res: Response) {
-    res.render("pages/auth/register-form");
+    res.render("pages/auth/register-form", { user: null });
   }
 
   loginForm(req: Request, res: Response) {
-    res.render("pages/auth/login-form");
+    res.render("pages/auth/login-form", { user: null });
   }
 
   async registerUser(req: Request, res: Response) {
@@ -32,5 +32,12 @@ export class AuthController {
     } catch (error) {
       res.send((error as Error).message);
     }
+  }
+
+  async logoutUser(req: Request, res: Response) {
+    req.session.destroy((err) => {
+      if (err) res.send("Unable to detory session! You can't logout.");
+      res.redirect("/");
+    });
   }
 }
