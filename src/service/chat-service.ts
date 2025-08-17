@@ -12,4 +12,37 @@ export class ChatService {
       throw err;
     }
   }
+
+  async getRoom(roomId: string): Promise<Room> {
+    try {
+      const result = await RoomModel.findOne({ id: roomId });
+      const room = result?.toObject();
+      return room!;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateRoom(roomId: string, roomData: Partial<Room>): Promise<Room> {
+    try {
+      const result = await RoomModel.updateOne(
+        { id: roomId },
+        { $set: roomData }
+      );
+      return await this.getRoom(roomId);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async addMemberToRoom(roomId: string, memberId: string): Promise<Room> {
+    try {
+      const room = await this.getRoom(roomId);
+      const roomMembers = room.members;
+      room.members.push(memberId);
+      return await this.updateRoom(roomId, room);
+    } catch (err) {
+      throw err;
+    }
+  }
 }

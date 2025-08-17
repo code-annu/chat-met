@@ -15,3 +15,9 @@ chatRouter.post(
   requireAuth,
   _chatController.createChatRoom.bind(_chatController)
 );
+
+chatRouter.post(
+  "/rooms/join",
+  requireAuth,
+  _chatController.joinChatRoom.bind(_chatController)
+);

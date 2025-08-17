@@ -6,6 +6,7 @@ import { Room } from "../model/room-model";
 export class ChatController {
   private userService = new UserService();
   private chatService = new ChatService();
+
   async chatHome(req: Request, res: Response) {
     try {
       const user = await this.userService.getUserProfile(req.session.userId!);
@@ -33,4 +34,17 @@ export class ChatController {
     }
   }
 
+  async joinChatRoom(req: Request, res: Response) {
+    const { roomId } = req.body;
+    try {
+      const room = await this.chatService.addMemberToRoom(
+        roomId,
+        req.session.userId!
+      );
+      await this.userService.addNewRoomId(req.session.userId!, room.id);
+      res.redirect("/");
+    } catch (err) {
+      res.send((err as Error).message);
+    }
+  }
 }
